@@ -38,7 +38,7 @@
           template += "<td>" + itemData.delete_status + "</td>";
           template += "<td>" + itemData.id + "</td>";
           template += "<td>" + itemData.category_id + "</td>";
-          template += "<td><button type='button' data-bs-toggle='modal' data-bs-target='#myModal' class='btn btn-primary btn-sm' id='editBtn' data-action='edit' data-id='' + itemData.id + ''>Edit</button><button type='button' class='btn btn-danger btn-sm ms-1' data-action='delete' data-id='" + itemData.id + "'>Dlte</button></td>";
+          template += "<td><button type='button' data-bs-toggle='modal' data-bs-target='#myModal' class='btn btn-primary btn-sm' id='editBtn' onclick='editFunction()' data-action='edit' data-id='' + itemData.id + ''>Edit</button><button type='button' class='btn btn-danger btn-sm ms-1' data-action='delete' data-id='" + itemData.id + "'>Dlte</button></td>";
   
         });
         tableBody.innerHTML = template;
@@ -68,53 +68,50 @@
       event.preventDefault();
       showTable();
     });
-  
-    
-    
     // Table Show GET End
+    
+  // Table Post Start
+
+  function subFunction() {
+    const newDatId = {
+      "meeting": document.getElementById("createdAt1").value,
+      "category_id": document.getElementById("cate_id").value,
+      "note_desc": document.getElementById("notesId").value,
+      "updated_from": document.getElementById("updateFrom").value
+  }
+  console.log("newDatId :", newDatId);
+
+  let methods = {
+    method: 'POST',
+    headers: {
+        'Content-Type':
+            'application/json;charset=utf-8',
+           "Authorization":"Bearer"+" "+localStorage.getItem('token'),
+    },
+    body: JSON.stringify(newDatId)
+}
+
+     let addData = fetch(
+  "https://salixv3qa.radiusdirect.net/coreapi/v2/notesCreate",
+  methods);
+  addData.then(res =>
+  res.json()).then(response => {
+      console.log('Response : ', response)
+      if (response && response.apiStatus) {
+        document.getElementById("createdAt1").value = '',
+        document.getElementById("cate_id").value = '',
+        document.getElementById("notesId").value = '',
+        document.getElementById("updateFrom").value = ''
+        showTable(),
+        alert(response.result)
+      } else {
+        alert(response.result)
+      }
+  })
+  }
+  // Table Post End
   
-    // Serch Box Function
-  
-    (function() {
-      'use strict';
-    
-      var TableFilter = (function() {
-        var Arr = Array.prototype;
-        var input;
-    
-        function onInputEvent(e) {
-          input = e.target;
-          var table1 = document.getElementsByClassName(input.getAttribute('data-table'));
-          Arr.forEach.call(table1, function(table) {
-            Arr.forEach.call(table.tBodies, function(tbody) {
-              Arr.forEach.call(tbody.rows, filter);
-            });
-          });
-        }
-    
-        function filter(row) {
-          var text = row.textContent.toLowerCase();
-          var val = input.value.toLowerCase();
-          row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
-        }
-    
-        return {
-          init: function() {
-            var inputs = document.getElementsByClassName('table-filter');
-            Arr.forEach.call(inputs, function(input) {
-              input.oninput = onInputEvent;
-            });
-          }
-        };
-    
-      })();
-    
-     TableFilter.init();
-    })();
-  
-   // Serch Box Function End
-  
-  //  Edit & Delete Function
+  // Delete Method Start 
 
   const apiUrl = "https://salixv3qa.radiusdirect.net/coreapi/v2/notesDelete"
   const modal = document.getElementById("exampleModal")
@@ -145,131 +142,117 @@
             showTable();
           })
       }
-    
-
-      // var element = evnt.target;
-      // var action = element.dataset.action;
-      // var datId = element.dataset.id;
-      // if (action === "edit") {
-
-      //   console.log("edit", datId);
-    
-      //   let obj = list.find(userslist => userslist.id == datId);
-      //   console.log("list Array1", obj);
-    
-      //   "category_type=" + obj.Notes + "&" + "createdAt=" + obj.dataTym + "&" + "id=" + obj.idNum;
-      //   console.log("list Array", list)
-      // }
     });
+    // Delete Method End 
 
-    window.addEventListener('load', (func) => {
+    // Edit Method Start
+
+    function editFunction() {
+
+      
+
+  //     const rowDatId = {
+  //       "id": document.getElementById("createdAt1").value,
+  //       "category_id": document.getElementById("cate_id").value,
+  //       "note_desc": document.getElementById("notesId").value,
+  //   }
+  //   console.log("rowDatId :", rowDatId);
   
-      const editBtn = document.querySelector("#editBtn");
-    
-       var editNotes = document.getElementById("category_type");
-       var editTimeDate = document.getElementById("createdAt");
-       var editIdNumber = document.getElementById("id");
-       var editCategoryId = document.getElementById("category_id");
-    
-       func.preventDefault();
-     
-     editBtn.addEventListener("click", (funct) => {
-      var rowDatId1 = {
-        "category-type" : editNotes,
-        "meeting" : editTimeDate,
-        "id" : editIdNumber,
-        "category_id" : editCategoryId,
+  //   let editMethod = {
+  //     method: 'POST',
+  //     headers: {
+  //         'Content-Type':'application/json;charset=utf-8',
+  //            "Authorization":"Bearer"+" "+localStorage.getItem('token'),
+  //     },
+  //     body: JSON.stringify(rowDatId)
+  // }
+  
+  //      let editData = fetch(
+  //   "https://salixv3qa.radiusdirect.net/coreapi/v2/notesUpdate",
+  //   editMethod);
+  //   editData.then(res =>
+  //   res.json()).then(response => {
+  //       console.log('Response : ', response)
+  //       if (response && response.apiStatus) {
+  //         alert(result.result)
+  //       } else {
+  //           alert(response.result)
+  //       }
+  //   })
     }
-       
-        funct.preventDefault();
-    
-        fetch( "https://salixv3qa.radiusdirect.net/coreapi/v2/notesUpdate", {
-             method:"POST",
-            headers:{
-            "Content-Type":"application/json",
-            "Authorization":"Bearer"+" "+localStorage.getItem('token')
-            },
-            body:JSON.stringify(rowDatId1)
-           })
-           .then(response => response.json())
-           .then((data) => {
-            console.log(data);
-                
-           })
+  // Edit Method End
+
+  // Serch Box Function
+  
+  (function() {
+    'use strict';
+  
+    var TableFilter = (function() {
+      var Arr = Array.prototype;
+      var input;
+  
+      function onInputEvent(e) {
+        input = e.target;
+        var table1 = document.getElementsByClassName(input.getAttribute('data-table'));
+        Arr.forEach.call(table1, function(table) {
+          Arr.forEach.call(table.tBodies, function(tbody) {
+            Arr.forEach.call(tbody.rows, filter);
           });
-    });
-
-    // Edit Modal
-    
-    // 3rd Test
-  //   $(function() {
-  //     //Take the data from the TR during the event button
-  //     $('table').on('click', 'button.editingTRbutton',function (ele) {
-  //         //the <tr> variable is use to set the parentNode from "ele
-  //         var tr = ele.target.parentNode.parentNode;
-
-  //         //I get the value from the cells (td) using the parentNode (var tr)
-  //         var editId = tr.cells[0].textContent;
-  //         var categoryType = tr.cells[1].textContent;
-  //         var createAtt = tr.cells[2].textContent;
-  //         var idNumber = tr.cells[3].textContent;
-
-  //         //Prefill the fields with the gathered information
-  //         $('h5.modal-title').html('Edit Admin Data: '+categoryType);
-  //         $('#category_type').val(categoryType);
-  //         $('#createdAt').val(createAtt);
-  //         $('#id').val(idNumber);
-
-  //         //If you need to update the form data and change the button link
-  //         $("form#myForm").attr('action', window.location.href+'/update/'+editId);
-  //         $("#subBtn").attr('href', window.location.href+'/update/'+editId);
-  //     });
-  // });
+        });
+      }
   
-  //  Edit & Delete Function End
-
-  // Table Post
+      function filter(row) {
+        var text = row.textContent.toLowerCase();
+        var val = input.value.toLowerCase();
+        row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+      }
   
-  window.addEventListener('load', (event) => {
+      return {
+        init: function() {
+          var inputs = document.getElementsByClassName('table-filter');
+          Arr.forEach.call(inputs, function(input) {
+            input.oninput = onInputEvent;
+          });
+        }
+      };
   
-    const addBtn = document.querySelector("#subBtn");
+    })();
+  
+   TableFilter.init();
+  })();
 
-     var note = document.getElementById("category_title");
-     var timeDate = document.getElementById("createdAt");
-     var idNumber = document.getElementById("id");
-    //  var editCategoryId = document.getElementById("category_id");
+ // Serch Box Function End
 
-     event.preventDefault();
-   
-   addBtn.addEventListener("click", (e) => {
-    var rowDatId = {
-      "category_title" : note,
-      "meeting" : timeDate,
-      "id" : idNumber,
-      // "category_id" : editCategoryId,
-  }
-     
-      e.preventDefault();
-       
-       fetch( "https://salixv3qa.radiusdirect.net/coreapi/v2/notesCreate", {
-         method:"POST",
-        headers:{
-        "Content-Type":"application/json",
-        "Authorization":"Bearer"+" "+localStorage.getItem('token')
-        },
-        body:JSON.stringify(rowDatId)
-       })
-       .then(response => response.json())
-       .then((data) => {
-        console.log(data);
-        document.getElementById("tbody").value
-            
-       })
-      });
-});
+  // Logout Function
 
+//   jQuery(document).ready(function() {
 
-  // Table Post End
+//     Parse.$ = jQuery;
+//     Parse.initialize("...", "...");
+
+//     $('.form-logout').on('submit', function (e) {
+//         // Prevent Default Submit Event
+//         e.preventDefault();
+
+//         console.log("Performing submit");
+
+//         //logout current user
+//         if ( Parse.User.current() ) {
+//             Parse.User.logOut();
+
+//             // check if really logged out
+//             if (Parse.User.current())
+//                 console.log("Failed to log out!");
+//         }
+
+//         // do redirect
+//         //window.location.replace("Sign_In.html");
+//         // or
+//         window.location.href = "/Sign_In.html";
+//     });
+// });
+
+  // Logout Function
   
   //  Pagination 
   

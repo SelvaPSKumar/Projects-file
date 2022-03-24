@@ -129,50 +129,43 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="myForm" name="myForm" onsubmit="required()" class="container1" method="post">
+                                    <form id="myForm" name="myForm" onsubmit="required()" class="container1"
+                                        method="post">
                                         <div>
-                                            <label><b>TITLE</b></label><br><input type="text"
-                                                class="form-control border-secondary" name="category_title"
-                                                id="category_type">
+                                            <label><b></b></label><br><input type="text"
+                                                class="form-control border-secondary" name="creatAt" id="createdAt1">
                                         </div>
                                         <br>
                                         <div>
-                                            <label><b>DATE/TIME</b></label><br><input type="text"
-                                                class="form-control border-secondary" name="createdAt" id="createdAt">
+                                            <label><b></b></label><br><input type="text"
+                                                class="form-control border-secondary" name="category_type"
+                                                id="cate_id">
                                         </div>
                                         <br>
                                         <div>
-                                            <label><b>ID</b></label><br><input type="text"
-                                                class="form-control border-secondary" name="id" id="id">
+                                            <label><b></b></label><br><input type="text"
+                                                class="form-control border-secondary" name="meetId" id="notesId">
                                         </div>
                                         <br>
-                                        <!-- <div>
-                                            <label><b>CATEGORY ID</b></label><br><input type="text"
-                                                class="form-control border-secondary" name="category_id"
-                                                id="category_id">
-                                        </div> -->
+                                        <div>
+                                            <label><b></b></label><br><input type="text"
+                                                class="form-control border-secondary" name="categid"
+                                                id="updateFrom">
+                                        </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" value="submit" id="subBtn" class="btn btn-danger"
-                                        >Submit</button>
+                                    <button type="submit" value="submit" id="subBtn" onclick="subFunction()" class="btn btn-danger"
+                                        data-bs-dismiss="modal">Submit</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- Form Modal End -->
 
-                    <!-- <select class="form-control" id="selection" name="datass" id="maxRows">
-
-                        <option value="15">Show ALL Rows</option>
-
-                        <option value="5">5</option>
-
-                        <option value="10">10</option>
-
-                    </select> -->
-                    <div class="sales-details">
+                <!-- Data Table -->
+                <div class="sales-details">
                         <div class="container">
                             <div class=" bd-highlight mb-3">
                                 <div class="me-auto p-2 bd-highlight"></div>
